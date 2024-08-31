@@ -1,4 +1,4 @@
-# ox_target | ProdigyRP Inspired
+
 # Redesigned by ItzMuri
 
 
