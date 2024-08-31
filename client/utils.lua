@@ -28,7 +28,7 @@ function utils.raycastFromCamera(flag)
 end
 
 function utils.getTexture()
-    return lib.requestStreamedTextureDict('shared'), 'emptydot_32'
+    return lib.requestStreamedTextureDict('muri_ui'), 'point'
 end
 
 -- SetDrawOrigin is limited to 32 calls per frame. Set as 0 to disable.
@@ -197,6 +197,8 @@ SetTimeout(0, function()
         require 'client.framework.esx'
     elseif utils.hasExport('qbx_core.HasGroup') then
         require 'client.framework.qbx'
+    elseif utils.hasExport('qb-core.GetCoreObject') then
+        require 'client.framework.qb'
     elseif utils.hasExport('ND_Core.getPlayer') then
         require 'client.framework.nd'
     end

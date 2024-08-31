@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
 :root {
-  --color-default: #cfd2da;
+  --color-default: #b6f800;
   --color-hover: white;
 }
 
@@ -23,12 +23,13 @@ p {
 }
 
 #eye {
+  content: "\F33E";
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 22pt;
-  fill: black;
+  font-size: 1.5vh;
+  fill: #8df800;
 }
 
 .eye-hover {
@@ -37,9 +38,11 @@ p {
 
 #options-wrapper {
   position: absolute;
-  top: calc(48.4%);
-  left: calc(50% + 18pt);
+  top: calc(48.5%);
+  left: calc(50% + 30pt);
 }
+
+
 
 .option-container {
   color: var(--color-default);
@@ -48,13 +51,12 @@ p {
   justify-content: flex-start;
   align-items: center;
   font-family: "Nunito";
-  background: linear-gradient(
-    90deg,
-    rgba(20, 20, 20, 0.7) 0%,
-    rgba(20, 20, 20, 0.6) 66%,
-    rgba(47, 48, 53, 0) 100%
-  );
-  font-size: 11pt;
+  border-style: solid;
+  border-radius: 3px;
+  border-width: 0.1rem;
+  border-color: rgba(138, 138, 138, 0.925);
+  background: radial-gradient(circle, rgba(46, 46, 46, 0.829) 0%, rgba(59, 60, 66, 0.808) 100%);
+  font-size: 10pt;
   line-height: 22pt;
   vertical-align: middle;
   margin: 2pt;
@@ -67,15 +69,13 @@ p {
 }
 
 .option-container:hover {
-  background: linear-gradient(
-    90deg,
-    rgba(30, 30, 30, 0.7) 0%,
-    rgba(30, 30, 30, 0.6) 66%,
-    rgba(57, 58, 63, 0) 100%
-  );
   transform-origin: left top;
   color: var(--color-hover);
-  margin-left: 4pt;
+  border-style: solid;
+  border-radius: 3px;
+  border-width: 0.1rem;
+  border-color: #99f800;
+  box-shadow: inset 0px 0px  31px #99f8003d;
 }
 
 .option-icon {
@@ -84,8 +84,26 @@ p {
   width: 14pt;
   margin: 5pt;
   color: var(--color-default);
+  
 }
 
 .option-label {
   font-weight: 500;
+  color: #fff;
+}
+
+@keyframes glow {
+  0% {
+    filter: drop-shadow(0 0 5px #99f800) brightness(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 20px #ffffff) brightness(1.5);
+  }
+  100% {
+    filter: drop-shadow(0 0 5px #99f800) brightness(1);
+  }
+}
+
+#eyeSvg {
+  animation: glow 1.5s infinite;
 }
