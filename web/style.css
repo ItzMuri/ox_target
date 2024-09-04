@@ -49,7 +49,7 @@ p {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  font-family: "Roboto",
+  font-family: "Roboto";
   border-style: solid;
   border-radius: 3px;
   border-width: 0.1rem;
