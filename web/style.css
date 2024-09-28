@@ -1,7 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 :root {
-  --color-default: #b6f800;
+  --color-default: #38d9a9;
   --color-hover: white;
 }
 
@@ -29,7 +28,7 @@ p {
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 1.5vh;
-  fill: #8df800;
+  fill: #38d9a9;
 }
 
 .eye-hover {
@@ -50,12 +49,12 @@ p {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  font-family: "Nunito";
+  font-family: "Roboto";
   border-style: solid;
   border-radius: 3px;
-  border-width: 0.1rem;
-  border-color: rgba(138, 138, 138, 0.925);
-  background: radial-gradient(circle, rgba(46, 46, 46, 0.829) 0%, rgba(59, 60, 66, 0.808) 100%);
+  border-width: 0.1px;
+  border-color: rgba(100, 100, 100, 0.808);
+  background: radial-gradient(circle, #25262bc5 0%, #25262bce 100%);
   font-size: 10pt;
   line-height: 22pt;
   vertical-align: middle;
@@ -65,18 +64,34 @@ p {
   scale: 1;
   height: 22pt;
   width: 150pt;
+  position: relative;
+  overflow: hidden;
   top: 0;
 }
 
 .option-container:hover {
-  transform-origin: left top;
   color: var(--color-hover);
-  border-style: solid;
-  border-radius: 3px;
-  border-width: 0.1rem;
-  border-color: #99f800;
-  box-shadow: inset 0px 0px  31px #99f8003d;
+  border-color: #38d9a99d;
+  box-shadow: inset 0px 0px 31px #38d9a942;
 }
+
+.option-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100%);
+  transform: skewX(-25deg);
+  transition: transform 1.2s ease;
+}
+
+.option-container:hover::before {
+  left: 150%;
+  transition: left 1.22s ease;
+}
+
 
 .option-icon {
   font-size: 12pt;
@@ -94,13 +109,13 @@ p {
 
 @keyframes glow {
   0% {
-    filter: drop-shadow(0 0 5px #99f800) brightness(1);
+    filter: drop-shadow(0 0 5px #38d9a9) brightness(1);
   }
   50% {
-    filter: drop-shadow(0 0 20px #ffffff) brightness(1.5);
+    filter: drop-shadow(0 0 20px #ffffff) brightness(2.5);
   }
   100% {
-    filter: drop-shadow(0 0 5px #99f800) brightness(1);
+    filter: drop-shadow(0 0 5px #38d9a9) brightness(1);
   }
 }
 

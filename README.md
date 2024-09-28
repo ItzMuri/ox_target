@@ -1,5 +1,12 @@
-# ox_target | ProdigyRP Inspired
+
 # Redesigned by ItzMuri
+![image](https://github.com/user-attachments/assets/5f033282-cddf-48eb-848a-017da9cc6bbf)
+
+
+https://github.com/user-attachments/assets/8421deb9-6e5c-405e-ad20-35d50fada234
+
+
+
 
 ## 📚 Documentation
 
