@@ -28,9 +28,8 @@ function utils.raycastFromCamera(flag)
 end
 
 function utils.getTexture()
-    return lib.requestStreamedTextureDict('muri_ui'), 'point'
+    return lib.requestStreamedTextureDict('shared'), 'emptydot_32'
 end
-
 -- SetDrawOrigin is limited to 32 calls per frame. Set as 0 to disable.
 local drawZoneSprites = GetConvarInt('ox_target:drawSprite', 24)
 local SetDrawOrigin = SetDrawOrigin
