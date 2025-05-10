@@ -1,4 +1,4 @@
-if not lib.checkDependency('ox_lib', '3.21.0', true) then return end
+if not lib.checkDependency('ox_lib', '3.30.0', true) then return end
 
 lib.locale()
 
@@ -290,7 +290,7 @@ local function startTargeting()
         end
 
         if newOptions then
-            if hasTarget == 1 and options.size > 1 then
+            if hasTarget == 1 and (totalOptions - hidden) > 1 then
                 hasTarget = true
             end
 

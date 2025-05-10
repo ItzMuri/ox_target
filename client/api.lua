@@ -76,7 +76,7 @@ function api.zoneExists(id)
 
     if type(id) == 'number' and Zones[id] then return true end
 
-    for key, zone in pairs(Zones) do
+    for _, zone in pairs(lib.zones.getAllZones()) do
         if type(id) == 'string' and zone.name == id then return true end
     end
 
@@ -90,7 +90,7 @@ function api.removeZone(id, suppressWarning)
         if type(id) == 'string' then
             local foundZone
 
-            for _, v in pairs(Zones) do
+            for _, v in pairs(lib.zones.getAllZones()) do
                 if v.name == id then
                     foundZone = true
                     v:remove()
@@ -338,7 +338,7 @@ function api.addLocalEntity(arr, options)
 
             addTarget(localEntities[entityId], options, resource)
         else
-            print(("No entity with id '%s' exists."):format(entityId))
+             lib.print.warn(("No entity with id '%s' exists in %s."):format(entityId, resource))
         end
     end
 end
