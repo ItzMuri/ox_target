@@ -132,19 +132,102 @@ end
 
 local api = require 'client.api'
 
+exportHandler('SpawnPed', function(data)
+    local function spawnPed(pedData)
+        if not pedData.spawnNow then return end
+
+        local model = type(pedData.model) == 'string' and joaat(pedData.model) or pedData.model
+        RequestModel(model)
+        while not HasModelLoaded(model) do Wait(1) end
+
+        local coords = pedData.coords
+        local x, y, z, w = coords.x or coords[1], coords.y or coords[2], coords.z or coords[3], coords.w or coords[4] or 0.0
+        if pedData.minusOne then z = z - 1.0 end
+
+        local ped = CreatePed(0, model, x, y, z, w, pedData.networked or false, true)
+
+        if pedData.freeze then FreezeEntityPosition(ped, true) end
+        if pedData.invincible then SetEntityInvincible(ped, true) end
+        if pedData.blockevents then SetBlockingOfNonTemporaryEvents(ped, true) end
+
+        if pedData.animDict and pedData.anim then
+            RequestAnimDict(pedData.animDict)
+            while not HasAnimDictLoaded(pedData.animDict) do Wait(1) end
+            TaskPlayAnim(ped, pedData.animDict, pedData.anim, 8.0, 0, -1, pedData.flag or 1, 0, false, false, false)
+        elseif pedData.scenario then
+            TaskStartScenarioInPlace(ped, pedData.scenario, 0, true)
+        end
+
+        if pedData.pedrelations then
+            local groupHash = joaat(pedData.pedrelations.groupname)
+            if not DoesRelationshipGroupExist(groupHash) then
+                AddRelationshipGroup(pedData.pedrelations.groupname)
+            end
+            SetPedRelationshipGroupHash(ped, groupHash)
+            if pedData.pedrelations.toplayer then
+                SetRelationshipBetweenGroups(pedData.pedrelations.toplayer, groupHash, joaat('PLAYER'))
+            end
+            if pedData.pedrelations.toowngroup then
+                SetRelationshipBetweenGroups(pedData.pedrelations.toowngroup, groupHash, groupHash)
+            end
+        end
+
+        if pedData.weapon then
+            local weapon = type(pedData.weapon.name) == 'string' and joaat(pedData.weapon.name) or pedData.weapon.name
+            if IsWeaponValid(weapon) then
+                GiveWeaponToPed(ped, weapon, pedData.weapon.ammo or 250, pedData.weapon.hidden or false, true)
+                SetPedCurrentWeaponVisible(ped, not (pedData.weapon.hidden or false), true, false, false)
+            end
+        end
+
+        if pedData.target then
+            CreateThread(function()
+                Wait(100)
+                if not DoesEntityExist(ped) then return end
+
+                local targetData = pedData.target.options and pedData.target or {
+                    distance = pedData.target.distance or 2.0,
+                    options = pedData.target[1] and pedData.target or { pedData.target }
+                }
+
+                local targetOptions = convert(targetData)
+                if targetOptions and #targetOptions > 0 then
+                    if pedData.target.useModel then
+                        api.addModel(model, targetOptions)
+                    else
+                        api.addLocalEntity(ped, targetOptions)
+                    end
+                end
+            end)
+        end
+
+        pedData.currentpednumber = ped
+        if pedData.action then pedData.action(pedData) end
+        return ped
+    end
+
+    return data[1] and type(data[1]) == 'table' and
+        (function()
+            local peds = {}
+            for _, pedData in pairs(data) do
+                local ped = spawnPed(pedData)
+                if ped then peds[#peds + 1] = ped end
+            end
+            return peds
+        end)() or spawnPed(data)
+end)
+
 exportHandler('AddBoxZone', function(name, center, length, width, options, targetoptions)
     local z = center.z
 
-    if not options.minZ then
-        options.minZ = -100
-    end
-
-    if not options.maxZ then
-        options.maxZ = 800
-    end
-
     if not options.useZ then
-        z = z + math.abs(options.maxZ - options.minZ) / 2
+        if options.minZ and options.maxZ then
+            z = (options.minZ + options.maxZ) / 2
+        else
+            options.minZ = -100
+            options.maxZ = 800
+            z = z + math.abs(options.maxZ - options.minZ) / 2
+        end
         center = vec3(center.x, center.y, z)
     end
 
@@ -268,14 +351,4 @@ end)
 
 exportHandler('RemoveGlobalPlayer', function(labels)
     api.removeGlobalPlayer(labels)
-end)
-
-local utils = require 'client.utils'
-
-exportHandler('AddEntityZone', function()
-    utils.warn('AddEntityZone is not supported by ox_target - try using addEntity/addLocalEntity.')
-end)
-
-exportHandler('RemoveTargetBone', function()
-    utils.warn('RemoveTargetBone is not supported by ox_target.')
 end)
